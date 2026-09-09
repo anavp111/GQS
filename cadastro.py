@@ -57,8 +57,6 @@ def alterar_pessoa(nomes, idades, emails):
     else:
         print("Usuário não encontrado")
 
-# --- NOVA FUNÇÃO DE LISTAGEM (COMMIT 6) ---
-
 def listar_pessoas(nomes, idades, emails):
     pos = 0
     print("\nPessoas Cadastradas: ")
@@ -67,6 +65,52 @@ def listar_pessoas(nomes, idades, emails):
         print("-" * 30) 
         pos += 1
 
+def analisar_pessoa(nomes, idades, emails):
+    procurando = input("Nome para analisar: ")
+    pos = buscar_pessoa(nomes, procurando)
+
+    if pos == -1:
+        print("Pessoa não encontrada")
+    else:
+        idade = idades[pos]
+        email = emails[pos]
+
+    if idade < 12:
+        print("Faixa etária: Criança")
+    elif idade < 18:
+        print("Faixa etária: Adolescente")  
+    elif idade < 30:
+        print("Faixa etária: Adulto Jovem")
+    elif idade < 60:
+        print("Faixa etária: Adulto")
+    else:
+        print("Faixa etária: Idoso")
+
+    if email == "":
+        print("Cadastro Incompleto: Sem o E-mail")
+    else:
+        if "@" not in email:
+            print("E-mail inválido")
+        else:
+            if email.endswith("@gmail.com"):
+                print("Provedor: Gmail")
+            elif email.endswith("@outlook.com"):
+                print("Provedor: Outlook")
+            elif email.endswith("@hotmail.com"):
+                print("Provedor: Hotmail")
+            elif email.endswith("@utfpr.edu.br"):
+                print("Provedor: UTFPR")
+            else:
+                print("Provedor: Outro")
+
+    if idade >= 18 and email != "":
+        print("Cadastro apto para contato")
+    elif idade >=18 and email == "":
+        print("Maior de idade sem contato")
+    elif idade < 18 and email != "":
+        print("Menor de idade com contato")
+    else:
+        print("Menor de idade sem contato")
 # ---------------------------------
 
 nomes = []
