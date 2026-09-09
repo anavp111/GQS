@@ -24,8 +24,6 @@ def cadastrar_pessoa(nomes, idades, emails):
     else:
         print("Situação: Menor de idade.")
 
-# --- NOVAS FUNÇÕES DO COMMIT 4 ---
-
 def buscar_pessoa(nome_busca, nomes):
     pos = 0
     while pos < len(nomes):
@@ -48,6 +46,20 @@ def consultar_pessoa(nomes, idades, emails):
     else:
         print("Usuário não encontrado")
 
+# --- NOVA FUNÇÃO DE ALTERAÇÃO (COMMIT 5) ---
+
+def alterar_pessoa(nomes, idades, emails):
+    nome_alterar = input("Nome para alterar: ")
+    # Reutilizando a função buscar_pessoa para achar a posição
+    pos = buscar_pessoa(nome_alterar, nomes)
+    
+    if pos != -1:
+        nomes[pos] = input("Informe o novo nome: ")
+        idades[pos] = int(input("Informe a nova idade: "))
+        emails[pos] = input("Informe o novo email: ")
+    else:
+        print("Usuário não encontrado")
+
 # ---------------------------------
 
 nomes = []
@@ -66,18 +78,7 @@ while op != 5:
         consultar_pessoa(nomes, idades, emails)
 
     elif op == 3:
-        nome_alterar = input("Nome para alterar: ")
-        pos = 0
-        achou = 0
-        while pos < len(nomes):
-            if nome_alterar == nomes[pos]:
-                nomes[pos] = input("Informe o novo nome: ")
-                idades[pos] = int(input("Informe a nova idade: "))
-                emails[pos] = input("Informe o novo email: ")
-                achou = 1
-            pos = pos + 1
-        if achou == 0:
-            print("Usuário não encontrado")
+        alterar_pessoa(nomes, idades, emails)
 
     elif op == 4:
         pos = 0
