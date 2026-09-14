@@ -1,6 +1,10 @@
 # Sistema de Cadastro de Pessoas - versao 2
 # novos requisitos: menu, consulta, alteracao e listagem
 
+import email
+from operator import pos
+
+
 def exibir_menu():
     print("=========================")
     print(" CADASTRO DE PESSOAS")
@@ -9,7 +13,9 @@ def exibir_menu():
     print("2 - Consultar pessoa")
     print("3 - Alterar pessoa")
     print("4 - Listar pessoas")
-    print("5 - Sair")
+    print("5 - Analisar pessoa")
+    print("6 - Sair")
+
     return int(input("Escolha uma opcao: "))
 
 def cadastrar_pessoa(nomes, idades, emails):
@@ -64,62 +70,80 @@ def listar_pessoas(nomes, idades, emails):
         exibir_pessoa(pos, nomes, idades, emails)
         print("-" * 30) 
         pos += 1
+#----------novos requisitos----------------
+def classificar_faixa_etaria(idade):
+    if idade < 12:
+        return "Criança"
+    elif idade < 18:
+        return "Adolescente"
+    elif idade < 30:
+        return "Adulto Jovem"
+    elif idade < 60:
+        return "Adulto"
+    else:
+        return "Idoso"
 
+def avaliar_email(email): 
+    if email == "":
+        return "Cadastro Incompleto: Sem o E-mail"
+    elif "@" not in email:
+        return "E-mail inválido"
+    else:
+        return "E-mail utilizável"
+
+def identificar_provedor(email):
+    if email.endswith("@gmail.com"):
+        return "Gmail"
+    elif email.endswith("@outlook.com"):
+        return "Outlook"
+    elif email.endswith("@hotmail.com"):
+        return "Hotmail"
+    elif email.endswith("@utfpr.edu.br"):
+        return "UTFPR"
+    else:
+        return "Outro"
+
+def definir_condicao_contato(idade, email):
+    if idade >= 18 and email != "":
+        return "Cadastro apto para contato"
+    elif idade >= 18 and email == "":
+        return "Maior de idade sem contato"
+    elif idade < 18 and email != "":
+        return "Menor de idade com contato"
+    else:
+        return "Menor de idade sem contato"
+
+    
 def analisar_pessoa(nomes, idades, emails):
     procurando = input("Nome para analisar: ")
-    pos = buscar_pessoa(nomes, procurando)
+    pos = buscar_pessoa(procurando, nomes)
 
     if pos == -1:
         print("Pessoa não encontrada")
-    else:
-        idade = idades[pos]
-        email = emails[pos]
+        return
 
-    if idade < 12:
-        print("Faixa etária: Criança")
-    elif idade < 18:
-        print("Faixa etária: Adolescente")  
-    elif idade < 30:
-        print("Faixa etária: Adulto Jovem")
-    elif idade < 60:
-        print("Faixa etária: Adulto")
-    else:
-        print("Faixa etária: Idoso")
+    idade = idades[pos]
+    email = emails[pos]
 
-    if email == "":
-        print("Cadastro Incompleto: Sem o E-mail")
-    else:
-        if "@" not in email:
-            print("E-mail inválido")
-        else:
-            if email.endswith("@gmail.com"):
-                print("Provedor: Gmail")
-            elif email.endswith("@outlook.com"):
-                print("Provedor: Outlook")
-            elif email.endswith("@hotmail.com"):
-                print("Provedor: Hotmail")
-            elif email.endswith("@utfpr.edu.br"):
-                print("Provedor: UTFPR")
-            else:
-                print("Provedor: Outro")
+    faixa_etaria = classificar_faixa_etaria(idade)
+    print(f"Faixa etária: {faixa_etaria}")
 
-    if idade >= 18 and email != "":
-        print("Cadastro apto para contato")
-    elif idade >=18 and email == "":
-        print("Maior de idade sem contato")
-    elif idade < 18 and email != "":
-        print("Menor de idade com contato")
-    else:
-        print("Menor de idade sem contato")
-# ---------------------------------
+    status_email = avaliar_email(email)
+    print(status_email)
 
+    provedor = identificar_provedor(email)
+    print(f"Provedor: {provedor}")
+
+    condicao_contato = definir_condicao_contato(idade, email)
+    print(condicao_contato)
+#---------------------------------------------------------------
 nomes = []
 idades = []
 emails = []
 
 op = 0
 
-while op != 5:
+while op != 6:
     op = exibir_menu()
 
     if op == 1:
@@ -135,7 +159,10 @@ while op != 5:
         listar_pessoas(nomes, idades, emails)
             
     elif op == 5:
-        print("Saindo...")
+        analisar_pessoa(nomes, idades, emails)
+
+    elif op == 6:
+        print("Saindo...")  
 
     else:
         print("Opcao invalida")
