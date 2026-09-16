@@ -158,6 +158,6 @@ if __name__ == "__main__":
         elif OP == 6:
             print("Saindo...")
         else:
-            print("Opcao invalida")
+            print("Opcao invalidaa")
 
     print("Fim do programa")
