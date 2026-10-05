@@ -136,14 +136,13 @@ def analisar_pessoa(instancia_cadastro):
             pessoa.getEmail()
         )
 
-
-if __name__ == "__main__":
+def executar():
+    """Executar o menu principal do programa."""
     cadastro = CadastroPessoas()
     op = 0
 
     while op != 6:
         op = exibir_menu()
-
         if op == 1:
             cadastrar_pessoa(cadastro)
         elif op == 2:
@@ -157,6 +156,8 @@ if __name__ == "__main__":
         elif op == 6:
             print("Saindo...")
         else:
-            print("Opcao invalidaa")
+            print("Opcao invalida")
+    print("Fim do programa")
 
-        print("Fim do programa")
+if __name__ == "__main__":
+    executar()
