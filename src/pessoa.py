@@ -2,24 +2,24 @@
 class Pessoa:
     """"Definição de metodos de acesso e modificadores de atributos da classe Pessoa."""
     def __init__(self, nome, idade, email):
-        self._nome = nome
-        self._idade = idade
-        self._email = email
+        self.__nome = nome
+        self.__idade = idade
+        self.__email = email
 
     def getNome(self):
-        return self._nome
+        return self.__nome
 
     def getIdade(self):
-        return self._idade
+        return self.__idade
 
     def getEmail(self):
-        return self._email
+        return self.__email
 
     def setNome(self, nome):
-        self._nome = nome
+        self.__nome = nome
 
     def setIdade(self, idade):
-        self._idade = idade
+        self.__idade = idade
 
     def setEmail(self, email):
-        self._email = email
+        self.__email = email
