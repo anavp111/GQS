@@ -4,6 +4,6 @@ repos:
     hooks:
       - id: pylint
         name: pylint
-        entry: python -m pylint
+        entry: python -m pylint --init-hook "import sys; sys.path.insert(0, 'src')"
         language: system
         types: [python]
