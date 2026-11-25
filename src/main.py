@@ -1,6 +1,15 @@
 """Módulo responsável pelo gerenciamento e análise de cadastro de pessoas."""
-
+# PONTO 1 — INÍCIO de src/main.py: imports e criar_repositorio()
 from cadastro import CadastroPessoas
+from repositorio_pessoas_memoria import RepositorioPessoasMemoria
+from repositorio_pessoas_mysql import RepositorioPessoasMySQL
+USAR_MYSQL = True
+
+def criar_repositorio():
+    if USAR_MYSQL:
+        return RepositorioPessoasMySQL.a_partir_do_ambiente()
+    return RepositorioPessoasMemoria()
+
 
 def exibir_menu():
     """Exibe o menu de opções e retorna a escolha do usuário."""
@@ -51,26 +60,27 @@ def consultar_pessoa(instancia_cadastro):
         exibir_pessoa(pessoa)
 
 
-def alterar_pessoa(instancia_cadastro):
-    """Atualiza as informações de uma pessoa existente."""
+def alterar_pessoa(cadastro):
+    """Altera os dados de uma pessoa."""
     procurado = input("Nome para alterar: ")
-    pessoa = instancia_cadastro.buscarPorNome(procurado)
-
+    pessoa = cadastro.buscarPorNome(procurado)
     if pessoa is None:
-        print("Não encontrado")
+        print("Nao encontrado")
+        return
+    novo_nome = input("Novo nome: ")
+    nova_idade = int(input("Nova idade: "))
+    novo_email = input("Novo e-mail: ")
+    pessoa_alterada = cadastro.alterar(
+        procurado,
+        novo_nome,
+        nova_idade,
+        novo_email
+    )
+    if pessoa_alterada is None:
+        print("Nao foi possivel alterar a pessoa")
     else:
-        novo_nome = input("Novo nome: ")
-        nova_idade = int(input("Nova idade: "))
-        novo_email = input("Novo email: ")
-        instancia_cadastro.alterar(
-            procurado,
-            novo_nome,
-            nova_idade,
-            novo_email
-        )
-
         print("Pessoa alterada!")
-        exibir_pessoa(pessoa)
+        exibir_pessoa(pessoa_alterada)
 
 
 def listar_pessoas(instancia_cadastro):
@@ -138,7 +148,7 @@ def analisar_pessoa(instancia_cadastro):
 
 def executar():
     """Executar o menu principal do programa."""
-    cadastro = CadastroPessoas()
+    cadastro = CadastroPessoas(criar_repositorio())
     op = 0
 
     while op != 6:
